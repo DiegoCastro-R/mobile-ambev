@@ -4,12 +4,12 @@ Application developed as part of the Ponto Ambev solution, for participation in 
 
 # Requirements
 
-Node.js v10+ + Yarn
-*React Native CLI (npm -g install react-native-cli)
-*Xcode Command Line tools (xcode-select --install)
-*CocoaPods (gem install cocoapods)
-*xcpretty (gem install xcpretty)
-*Bash v4 (default on GNU/Linux, brew install bash on macOS)
+- Node.js v10+ + Yarn
+- React Native CLI (npm -g install react-native-cli)
+- Xcode Command Line tools (xcode-select --install)
+- Bash v4 (default on GNU/Linux, brew install bash on macOS)
+
+
 # Usage
 
 # install dependencies
