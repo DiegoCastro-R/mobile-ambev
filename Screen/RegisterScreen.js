@@ -1,6 +1,6 @@
 //Import React and Hook we needed
 import React, {useState} from 'react';
-
+import firebase from '../database/firebase';
 //Import all required component
 import {
   StyleSheet,
@@ -14,12 +14,10 @@ import {
   ScrollView,
 } from 'react-native';
 import Loader from './Components/loader';
-
 const RegisterScreen = (props) => {
   let [userName, setUserName] = useState('');
   let [userEmail, setUserEmail] = useState('');
-  let [userAge, setUserAge] = useState('');
-  let [userAddress, setUserAddress] = useState('');
+  let [userPassword, setUserPassword] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
   let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
@@ -34,57 +32,25 @@ const RegisterScreen = (props) => {
       alert('Please fill Email');
       return;
     }
-    if (!userAge) {
-      alert('Please fill Age');
-      return;
-    }
-    if (!userAddress) {
-      alert('Please fill Address');
-      return;
-    }
-    //Show Loader
     setLoading(true);
     var dataToSend = {
-      user_name: userName,
-      user_email: userEmail,
-      user_age: userAge,
-      user_address: userAddress,
+      name: userName,
+      email: userEmail,
+      password: userPassword,
     };
-    var formBody = [];
-    for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
 
-    fetch('https://aboutreact.herokuapp.com/register.php', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status == 1) {
-          setIsRegistraionSuccess(true);
-          console.log('Registration Successful. Please Login to proceed');
-        } else {
-          setErrortext('Registration Unsuccessful');
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(dataToSend.email, dataToSend.password)
+      .then((res) => {
+        res.user.updateProfile({
+          name: dataToSend.name,
+        });
+        console.log('User registered successfully!');
+        setIsRegistraionSuccess(true);
       });
   };
+
   if (isRegistraionSuccess) {
     return (
       <View
@@ -108,12 +74,17 @@ const RegisterScreen = (props) => {
     );
   }
   return (
-    <View style={{flex: 1, backgroundColor: '#307ecc'}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#307ecc',
+        background: '../Image/background.png',
+      }}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{alignItems: 'center'}}>
           <Image
-            source={require('../Image/aboutreact.png')}
+            source={require('../Image/logo.png')}
             style={{
               width: '50%',
               height: 100,
@@ -128,13 +99,13 @@ const RegisterScreen = (props) => {
               style={styles.inputStyle}
               onChangeText={(UserName) => setUserName(UserName)}
               underlineColorAndroid="#FFFFFF"
-              placeholder="Enter Name"
-              placeholderTextColor="#F6F6F7"
+              placeholder="Nome"
+              placeholderTextColor="grey"
               autoCapitalize="sentences"
               returnKeyType="next"
-              onSubmitEditing={() =>
-                this._emailinput && this._emailinput.focus()
-              }
+              // onSubmitEditing={() =>
+              //   this._emailinput && this._emailinput.focus()
+              // }
               blurOnSubmit={false}
             />
           </View>
@@ -143,12 +114,12 @@ const RegisterScreen = (props) => {
               style={styles.inputStyle}
               onChangeText={(UserEmail) => setUserEmail(UserEmail)}
               underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Email"
-              placeholderTextColor="#F6F6F7"
+              placeholder="Email"
+              placeholderTextColor="grey"
               keyboardType="email-address"
-              ref={(ref) => {
-                this._emailinput = ref;
-              }}
+              // ref={(ref) => {
+              //   this._emailinput = ref;
+              // }}
               returnKeyType="next"
               onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
@@ -157,34 +128,18 @@ const RegisterScreen = (props) => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserAge) => setUserAge(UserAge)}
-              underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Age"
-              placeholderTextColor="#F6F6F7"
-              keyboardType="numeric"
-              ref={(ref) => {
-                this._ageinput = ref;
-              }}
-              onSubmitEditing={() =>
-                this._addressinput && this._addressinput.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAddress) => setUserAddress(UserAddress)}
+              onChangeText={(UserPassword) => setUserPassword(UserPassword)}
               underlineColorAndroid="#FFFFFF"
-              placeholder="Enter Address"
-              placeholderTextColor="#F6F6F7"
+              placeholder="Senha"
+              placeholderTextColor="grey"
               autoCapitalize="sentences"
-              ref={(ref) => {
-                this._addressinput = ref;
-              }}
+              // ref={(ref) => {
+              //   this._addressinput = ref;
+              // }}
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
+              secureTextEntry={true}
             />
           </View>
           {errortext != '' ? (
@@ -194,7 +149,7 @@ const RegisterScreen = (props) => {
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
+            <Text style={styles.buttonTextStyle}>CADASTRAR</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
@@ -213,13 +168,13 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonStyle: {
-    backgroundColor: '#7DE24E',
-    borderWidth: 0,
+    backgroundColor: '#353438',
+    borderWidth: 1,
     color: '#FFFFFF',
     borderColor: '#7DE24E',
     height: 40,
     alignItems: 'center',
-    borderRadius: 30,
+    borderRadius: 35,
     marginLeft: 35,
     marginRight: 35,
     marginTop: 20,
@@ -232,12 +187,13 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: 'white',
+    color: 'black',
+    backgroundColor: '#FFFFFF',
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
     borderRadius: 30,
-    borderColor: 'white',
+    borderColor: 'black',
   },
   errorTextStyle: {
     color: 'red',

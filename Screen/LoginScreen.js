@@ -1,6 +1,6 @@
 //Import React and Hook we needed
 import React, {useState} from 'react';
-
+import firebase from '../database/firebase';
 //Import all required component
 import {
   StyleSheet,
@@ -13,13 +13,13 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './Components/loader';
 
 const LoginScreen = (props) => {
   let [userEmail, setUserEmail] = useState('');
   let [userPassword, setUserPassword] = useState('');
   let [loading, setLoading] = useState(false);
+  let [isLogged, setLogged] = useState(false);
   let [errortext, setErrortext] = useState('');
 
   const handleSubmitPress = () => {
@@ -33,43 +33,20 @@ const LoginScreen = (props) => {
       return;
     }
     setLoading(true);
-    var dataToSend = {user_email: userEmail, user_password: userPassword};
-    var formBody = [];
-    for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
-
-    fetch('https://aboutreact.herokuapp.com/login.php', {
-      method: 'POST',
-      body: formBody,
-      headers: {
-        //Header Defination
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        //Hide Loader
-        setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status == 1) {
-          AsyncStorage.setItem('user_id', responseJson.data[0].user_id);
-          console.log(responseJson.data[0].user_id);
-          props.navigation.navigate('DrawerNavigationRoutes');
-        } else {
-          setErrortext('Please check your email id or password');
-          console.log('Please check your email id or password');
-        }
-      })
-      .catch((error) => {
-        //Hide Loader
-        setLoading(false);
-        console.error(error);
+    var dataToSend = {email: userEmail, password: userPassword};
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(dataToSend.email, dataToSend.password)
+      .then((res) => {
+        res.user.updateProfile({
+          name: dataToSend.name,
+        });
+        setLogged(true);
+        console.log('User logged successfully!');
+        props.navigation.navigate('DrawerNavigationRoutes');
       });
+    if (isLogged) {
+    }
   };
 
   return (
@@ -80,7 +57,7 @@ const LoginScreen = (props) => {
           <KeyboardAvoidingView enabled>
             <View style={{alignItems: 'center'}}>
               <Image
-                source={require('../Image/aboutreact.png')}
+                source={require('../Image/logo.png')}
                 style={{
                   width: '50%',
                   height: 100,
@@ -98,9 +75,9 @@ const LoginScreen = (props) => {
                 placeholderTextColor="#F6F6F7"
                 autoCapitalize="none"
                 keyboardType="email-address"
-                ref={(ref) => {
-                  this._emailinput = ref;
-                }}
+                // ref={(ref) => {
+                //   this._emailinput = ref;
+                // }}
                 returnKeyType="next"
                 onSubmitEditing={() =>
                   this._passwordinput && this._passwordinput.focus()
@@ -116,9 +93,9 @@ const LoginScreen = (props) => {
                 placeholder="Enter Password" //12345
                 placeholderTextColor="#F6F6F7"
                 keyboardType="default"
-                ref={(ref) => {
-                  this._passwordinput = ref;
-                }}
+                // ref={(ref) => {
+                //   this._passwordinput = ref;
+                // }}
                 onSubmitEditing={Keyboard.dismiss}
                 blurOnSubmit={false}
                 secureTextEntry={true}

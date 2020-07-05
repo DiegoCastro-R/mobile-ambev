@@ -25,11 +25,7 @@ const Auth = createStackNavigator({
   RegisterScreen: {
     screen: RegisterScreen,
     navigationOptions: {
-      title: 'Register',
-      headerStyle: {
-        backgroundColor: '#307ecc',
-      },
-      headerTintColor: '#fff',
+      title: 'Criar Perfil',
     },
   },
 });
