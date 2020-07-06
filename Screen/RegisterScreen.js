@@ -63,7 +63,9 @@ const RegisterScreen = (props) => {
           source={require('../Image/success.png')}
           style={{height: 150, resizeMode: 'contain', alignSelf: 'center'}}
         />
-        <Text style={styles.successTextStyle}>Registration Successful.</Text>
+        <Text style={styles.successTextStyle}>
+          Registro concluido com sucesso.
+        </Text>
         <TouchableOpacity
           style={styles.buttonStyle}
           activeOpacity={0.5}

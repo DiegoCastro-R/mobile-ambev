@@ -7,7 +7,7 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 
 //Import External Screens
 import HomeScreen from './drawerScreens/HomeScreen';
-import SettingsScreen from './drawerScreens/SettingsScreen';
+import ScanScreen from './drawerScreens/ScanScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
@@ -15,7 +15,7 @@ const FirstActivity_StackNavigator = createStackNavigator({
   First: {
     screen: HomeScreen,
     navigationOptions: ({navigation}) => ({
-      title: 'Home Screen',
+      title: 'Ponto Ambev',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#307ecc',
@@ -27,9 +27,9 @@ const FirstActivity_StackNavigator = createStackNavigator({
 
 const SecondActivity_StackNavigator = createStackNavigator({
   First: {
-    screen: SettingsScreen,
+    screen: ScanScreen,
     navigationOptions: ({navigation}) => ({
-      title: 'Setting Screen',
+      title: 'Ponto Ambev',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
         backgroundColor: '#307ecc',
@@ -44,13 +44,13 @@ const DrawerNavigatorRoutes = createDrawerNavigator(
     HomeScreen: {
       screen: FirstActivity_StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Home Screen',
+        drawerLabel: 'Ponto Ambev',
       },
     },
-    SettingsScreen: {
+    ScanScreen: {
       screen: SecondActivity_StackNavigator,
       navigationOptions: {
-        drawerLabel: 'Setting Screen',
+        drawerLabel: 'Ponto Ambev',
       },
     },
   },
