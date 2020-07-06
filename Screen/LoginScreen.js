@@ -71,8 +71,8 @@ const LoginScreen = (props) => {
                 style={styles.inputStyle}
                 onChangeText={(UserEmail) => setUserEmail(UserEmail)}
                 underlineColorAndroid="#FFFFFF"
-                placeholder="Enter Email" //dummy@abc.com
-                placeholderTextColor="#F6F6F7"
+                placeholder="Email" //dummy@abc.com
+                placeholderTextColor="black"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 // ref={(ref) => {
@@ -90,8 +90,8 @@ const LoginScreen = (props) => {
                 style={styles.inputStyle}
                 onChangeText={(UserPassword) => setUserPassword(UserPassword)}
                 underlineColorAndroid="#FFFFFF"
-                placeholder="Enter Password" //12345
-                placeholderTextColor="#F6F6F7"
+                placeholder="Senha" //12345
+                placeholderTextColor="black"
                 keyboardType="default"
                 // ref={(ref) => {
                 //   this._passwordinput = ref;
@@ -113,7 +113,7 @@ const LoginScreen = (props) => {
             <Text
               style={styles.registerTextStyle}
               onPress={() => props.navigation.navigate('RegisterScreen')}>
-              New Here ? Register
+              Cadastre-se
             </Text>
           </KeyboardAvoidingView>
         </View>
@@ -138,13 +138,13 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonStyle: {
-    backgroundColor: '#7DE24E',
-    borderWidth: 0,
+    backgroundColor: '#353438',
+    borderWidth: 1,
     color: '#FFFFFF',
-    borderColor: '#7DE24E',
+    borderColor: 'black',
     height: 40,
     alignItems: 'center',
-    borderRadius: 30,
+    borderRadius: 35,
     marginLeft: 35,
     marginRight: 35,
     marginTop: 20,
@@ -157,12 +157,13 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: 'white',
+    color: 'black',
+    backgroundColor: '#FFFFFF',
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 1,
     borderRadius: 30,
-    borderColor: 'white',
+    borderColor: 'black',
   },
   registerTextStyle: {
     color: '#FFFFFF',

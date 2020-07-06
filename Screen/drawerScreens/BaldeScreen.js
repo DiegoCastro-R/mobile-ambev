@@ -4,35 +4,26 @@ import React from 'react';
 //Import all required component
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-const ScanScreen = (props) => {
-  global.currentScreenIndex = 'HomeScreen';
-
-  const handleCheckin = () => {
-    console.log('Ok');
-    props.navigation.navigate('PedidosSceen');
-  };
-
+const BaldeScreen = (props) => {
+  global.currentScreenIndex = 'BaldeScreen';
   return (
     <View>
       <View />
       <View style={styles.container}>
-        <Text style={styles.TextStyle}>ESCANEIE O QR CODE</Text>
-        <Image source={require('../../Image/box.png')} />
+        <Image source={require('../../Image/balde.png')} />
       </View>
 
-      <TouchableOpacity style={styles.buttonStyle} onPress={handleCheckin}>
-        <Text style={styles.buttonTextStyle}>CHECK-IN</Text>
+      <TouchableOpacity style={styles.buttonStyle}>
+        <Text style={styles.buttonTextStyle}>REALIZAR PAGAMENTO</Text>
       </TouchableOpacity>
     </View>
   );
 };
-export default ScanScreen;
+export default BaldeScreen;
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    marginTop: 300,
-    marginBottom: 300,
-    justifyContent: 'flex-end',
+    marginBottom: 80,
     alignItems: 'center',
   },
 

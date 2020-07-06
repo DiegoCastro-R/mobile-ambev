@@ -8,6 +8,8 @@ import {createDrawerNavigator} from 'react-navigation-drawer';
 //Import External Screens
 import HomeScreen from './drawerScreens/HomeScreen';
 import ScanScreen from './drawerScreens/ScanScreen';
+import PedidosSceen from './drawerScreens/PedidosSceen.js';
+import BaldeScreen from './drawerScreens/BaldeScreen';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
 
@@ -39,6 +41,34 @@ const SecondActivity_StackNavigator = createStackNavigator({
   },
 });
 
+const ThirtyActivity_StackNavigator = createStackNavigator({
+  First: {
+    screen: PedidosSceen,
+    navigationOptions: ({navigation}) => ({
+      title: 'Ponto Ambev',
+      headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#307ecc',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
+
+const Forthy_StackNavigator = createStackNavigator({
+  First: {
+    screen: BaldeScreen,
+    navigationOptions: ({navigation}) => ({
+      title: 'Ponto Ambev',
+      headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#307ecc',
+      },
+      headerTintColor: '#fff',
+    }),
+  },
+});
+
 const DrawerNavigatorRoutes = createDrawerNavigator(
   {
     HomeScreen: {
@@ -49,6 +79,19 @@ const DrawerNavigatorRoutes = createDrawerNavigator(
     },
     ScanScreen: {
       screen: SecondActivity_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Ponto Ambev',
+      },
+    },
+
+    PedidosSceen: {
+      screen: ThirtyActivity_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'Ponto Ambev',
+      },
+    },
+    BaldeScreen: {
+      screen: Forthy_StackNavigator,
       navigationOptions: {
         drawerLabel: 'Ponto Ambev',
       },
